@@ -1,0 +1,17 @@
+/*@!Encoding:1252*/
+includes
+{
+  
+}
+
+variables
+{
+  message BCMMessage b;
+}
+on sysvar indicator::Sys_BCM 
+{
+  b.BCM_Signal = @indicator::Sys_BCM ;
+  output(b);
+  
+}
+
