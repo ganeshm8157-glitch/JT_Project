@@ -1,0 +1,27 @@
+/*@!Encoding:1252*/
+includes
+{
+  //Blink LED for 5 times only, then off
+}
+
+variables 
+{
+  message BCMMessage b;
+  msTimer t1;  
+  int count = 1;
+  
+}
+on key 'b'
+{
+  setTimer(t1,500);
+}
+on timer t1
+{
+  if(count <=20)
+  {
+    b.BCM_Signal = !(b.BCM_Signal );
+    output (b);
+    count++ ;
+    setTimer(t1,500);
+  }
+}

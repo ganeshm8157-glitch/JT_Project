@@ -1,0 +1,43 @@
+/*@!Encoding:1252*/
+includes
+{
+ // my code kpit , key k not working 
+}
+
+variables
+{
+  message BCMMessage b;
+  timer t1, t2;
+}
+on key 'k'
+{
+  b.BCM_signal = 0x1;
+  output(b);  
+}
+  
+on sysvar Indicator::Sys_BCM
+{
+  setTimer (t1,5); // wrong , bcos no checking if switch is on or off position 
+}
+on timer t1 // led off , after 5 sec
+{
+  if (@Indicator::Sys_BCM == 1)
+  {
+    b.BCM_signal = 0x0;
+    output(b);
+    settimer(t2,10);
+  }
+  else //@indicator::sys_bcm == 0
+  {
+    b.BCM_signal = 0x1;
+    output(b);
+    cancelTimer (t1);
+    cancelTimer (t2);
+  }
+}
+on timer t2 // lED on after 10 sec 
+{
+  b.BCM_signal = 0x1;
+  output(b);
+  setTimer (t1,5);
+}

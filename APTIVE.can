@@ -1,0 +1,56 @@
+/*@!Encoding:1252*/
+includes
+{
+  /**Requirement:
+ When the trigger key is pressed, the system shall transmit the BCMMessage 30 times at an interval
+ of 50 ms. After completing the 30 BCM transmissions,
+ the system shall transmit the GWMMessage 50 times at an interval of 100 ms. 
+ After completing the 50 GWM transmissions, the system shall start the
+ BCM transmission sequence again. This BCM ? GWM sequence shall continue 
+ **/
+}
+
+variables 
+{
+  message BCMMessage b;
+  msTimer t1, t2;  
+  int count_BCM = 1;
+  int count_GWM =1; 
+  
+}
+on key * 
+{
+  setTimer(t1,50);
+}
+on timer t1
+{
+  if(count_BCM <=30)
+  {
+   
+    output (b);
+    write("BCM_ message" ); // this printed 30 times 
+    count_BCM++ ;
+    setTimer(t1,50);
+  }
+  else {
+   count_BCM=1;
+ setTimer(t2,50);
+  }
+}
+ // giving 50 as 50ms is already gone when count value reached 31;
+ on timer t2
+  {
+    if(count_GWM <=50)// for msg to trf 50 times 
+     { 
+      output (b);
+      write("GWM_ message" );
+      count_GWM++ ;
+      setTimer(t2,100);
+     }
+    else{
+     count_GWM=1;
+    setTimer (t1,50);
+    }
+} 
+  
+
